@@ -1,0 +1,31 @@
+[project]
+name = "ds2-my-voice"
+version = "0.1.0"
+description = "DeepSpeech2 from scratch + fine-tuning on my own voice (learning demo)"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "torch>=2.4",
+    "numpy",
+    "soundfile",
+    "soxr",
+    "sounddevice",
+    "tqdm",
+    "pyarrow",
+    "huggingface_hub",
+]
+
+[tool.uv.sources]
+torch = { index = "pytorch-cu126" }
+
+[[tool.uv.index]]
+name = "pytorch-cu126"
+url = "https://download.pytorch.org/whl/cu126"
+explicit = true
+
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+packages = ["ds2"]

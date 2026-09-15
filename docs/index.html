@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DeepSpeech2로 내 목소리 학습하기</title>
+  <meta name="description" content="DeepSpeech2를 직접 구현해 공개 한국어 데이터로 사전학습하고, 내 목소리 8분으로 파인튜닝한 결과 데모">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main>
+    <header>
+      <p class="eyebrow">학습용 음성인식 데모</p>
+      <h1>DeepSpeech2로 내 목소리 학습하기</h1>
+      <p class="lede" id="lede"></p>
+    </header>
+
+    <section aria-labelledby="summary-title">
+      <h2 id="summary-title">결과 요약</h2>
+      <p class="section-note">CER은 틀린 글자 비율(공백 제외)입니다. 낮을수록 좋습니다.</p>
+      <div class="tiles" id="summary"></div>
+      <table class="metrics" id="metrics"></table>
+    </section>
+
+    <section aria-labelledby="samples-title">
+      <h2 id="samples-title">샘플 들어보기</h2>
+      <div class="tabs" role="tablist" id="tabs">
+        <button role="tab" data-set="my_voice" aria-selected="true">내 목소리</button>
+        <button role="tab" data-set="zeroth" aria-selected="false">다른 사람 목소리</button>
+      </div>
+      <p class="section-note" id="samples-note"></p>
+      <p class="marks-legend">
+        <mark class="err">틀린 글자</mark> 는 정답과 다르거나 더 들어간 글자,
+        <span class="del" aria-hidden="true">‸</span> 는 빠진 글자가 있던 자리입니다.
+      </p>
+      <div class="samples" id="samples" role="tabpanel"></div>
+    </section>
+
+    <section aria-labelledby="training-title">
+      <h2 id="training-title">학습 과정</h2>
+      <div class="charts">
+        <figure class="chart-card" id="chart-base"></figure>
+        <figure class="chart-card" id="chart-mine"></figure>
+      </div>
+    </section>
+
+    <section aria-labelledby="how-title">
+      <h2 id="how-title">어떻게 만들었나</h2>
+      <ol class="pipeline" id="pipeline"></ol>
+      <h3>결과를 읽을 때 주의할 점</h3>
+      <ul class="caveats" id="caveats"></ul>
+    </section>
+
+    <footer>
+      <p>공개 데이터: <a href="https://huggingface.co/datasets/kresnik/zeroth_korean">Zeroth-Korean</a> (CC BY 4.0, OpenSLR SLR40).
+        모델: Amodei et al., <a href="https://arxiv.org/abs/1512.02595">Deep Speech 2</a> (2015)를 축소 구현.</p>
+    </footer>
+  </main>
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
