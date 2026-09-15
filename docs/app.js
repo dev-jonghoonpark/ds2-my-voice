@@ -64,6 +64,38 @@ function renderSummary() {
   table.append(tbody);
 }
 
+/* ---------- 파인튜닝의 가치 ---------- */
+
+function renderValue() {
+  const my = D.sets.my_voice.metrics, zeroth = D.sets.zeroth.metrics;
+  const change = (a, b) => Math.round((Math.abs(b - a) / a) * 100);
+  // 사전학습 대비 파인튜닝으로 가장 많이 좋아진 문장을 예시로 쓴다
+  const example = D.sets.my_voice.samples
+    .map((s) => ({ s, gain: align(s.ref, s.base).cer - align(s.ref, s.mine).cer }))
+    .sort((a, b) => b.gain - a.gain)[0]?.s;
+
+  const points = [
+    [
+      "효과는 실제로 있었습니다.",
+      ` 같은 모델이 녹음 ${D.train.my_voice.minutes}분(${D.train.my_voice.count}문장)만으로 내 목소리 CER이 ` +
+      `${fmt(my.base.cer)} → ${fmt(my.mine.cer)}로 ${change(my.base.cer, my.mine.cer)}% 줄었습니다. ` +
+      "음성인식에서는 이걸 화자 적응(speaker adaptation)이라고 부르며, 실제로 쓰이는 기법입니다.",
+      example && h("span", { class: "example" },
+        "예: ", h("q", { text: example.ref }), " → 사전학습 ", h("q", { text: example.base }),
+        " / 파인튜닝 ", h("q", { text: example.mine })),
+    ],
+    ["실제로는 이런 곳에 씁니다.",
+      " 발음이 독특하거나 사투리가 있는 사람, 구음장애가 있는 사람의 음성인식, 그리고 회사 용어처럼 특정 분야 단어를 잘 알아듣게 할 때입니다."],
+    ["대가도 숫자로 보였습니다.",
+      ` 다른 사람 목소리는 ${fmt(zeroth.base.cer)} → ${fmt(zeroth.mine.cer)}로 ${change(zeroth.base.cer, zeroth.mine.cer)}% 나빠졌습니다. ` +
+      "적은 데이터로 파인튜닝하면 원래 알던 것을 잊는 망각(catastrophic forgetting)이 그대로 나타난 것이고, 학습용으로는 오히려 좋은 관찰 거리입니다."],
+    ["DS2 부품을 한 번에 조립해 본 결과물입니다.",
+      " how-ai-works에서 따로 다룬 행 합성곱, CTC 빔 서치, RNN 드롭아웃 같은 DS2 구성 요소가 실제 학습 파이프라인 안에서 어떻게 맞물리는지 직접 돌려 볼 수 있습니다."],
+  ];
+  document.getElementById("value").append(...points.map(([title, body, extra]) =>
+    h("li", {}, h("strong", { text: title }), body, extra ?? null)));
+}
+
 /* ---------- 샘플 ---------- */
 
 // 공백을 뺀 글자끼리 편집거리 정렬을 하고, 예측 문장의 어느 글자가 틀렸는지 표시한다.
@@ -300,12 +332,12 @@ function renderHow() {
     `파인튜닝 모델은 테스트 ${D.sets.my_voice.count}문장에서 CER이 가장 낮았던 epoch ${bestMine.epoch}을 골랐기 때문에 ${fmt(bestMine.cer)}은 약간 낙관적인 수치입니다. 고르지 않은 마지막 epoch ${last.epoch}도 ${fmt(last.cer)}였습니다.`,
     `테스트가 ${D.sets.my_voice.count}문장뿐이라 문장 몇 개에 따라 수치가 크게 흔들립니다.`,
     "언어모델이 없어서 발음은 맞아도 맞춤법이 틀리는 경우가 많습니다 (예: '공익' → '공릭').",
-    "DeepSpeech2(2015)는 학습 목적으로 고른 구조입니다. 실사용 성능은 Whisper, wav2vec 2.0 같은 최신 모델이 훨씬 좋습니다.",
   ];
   document.getElementById("caveats").append(...caveats.map((c) => h("li", { text: c })));
 }
 
 renderSummary();
+renderValue();
 setupTabs();
 renderCharts();
 renderHow();

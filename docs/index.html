@@ -23,6 +23,18 @@
       <table class="metrics" id="metrics"></table>
     </section>
 
+    <section aria-labelledby="value-title">
+      <h2 id="value-title">내 목소리로 파인튜닝한 게 어떤 가치가 있었나</h2>
+      <p class="section-note">DeepSpeech2는 음성을 <strong>글자로 받아쓰는</strong> 음성인식 모델입니다. 그래서 여기서 말하는 "내 목소리 학습"은 내 목소리를 만들어내는 것(음성합성·보이스 클로닝)이 아니라, <strong>내 목소리를 더 잘 알아듣게 만드는 것</strong>입니다.</p>
+      <ul class="points" id="value"></ul>
+      <aside class="notice">
+        <p class="notice-title">학습 목적으로 만든 프로젝트입니다</p>
+        <p>DeepSpeech2(2015)는 음성인식 파이프라인을 처음부터 직접 만들고 학습시켜 보려고 고른 구조이고, 성능을 위한 선택이 아닙니다.
+          실제로 받아쓰기를 쓰려는 목적이라면 <strong>Whisper 계열</strong> 모델을 쓰면 무난하게 잘 됩니다.
+          대규모 다국어 음성으로 학습되어 파인튜닝 없이도 한국어를 잘 받아쓰고, 필요하면 LoRA 같은 방법으로 내 목소리나 분야 용어에 맞출 수 있습니다.</p>
+      </aside>
+    </section>
+
     <section aria-labelledby="samples-title">
       <h2 id="samples-title">샘플 들어보기</h2>
       <div class="tabs" role="tablist" id="tabs">
